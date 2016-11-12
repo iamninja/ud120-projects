@@ -1,10 +1,9 @@
 #!/usr/bin/python
 
 import pickle
-import pickle
 import numpy
 
-from sklearn import model_selection 
+from sklearn import model_selection
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.feature_selection import SelectPercentile, f_classif
 
@@ -30,11 +29,11 @@ def preprocess(words_file = "../tools/word_data.pkl", authors_file="../tools/ema
     ### the words (features) and authors (labels), already largely preprocessed
     ### this preprocessing will be repeated in the text learning mini-project
     authors_file_handler = open(authors_file, "rb")
-    authors = pickle.load(authors_file_handler)
+    authors = pickle.load(authors_file_handler, fix_imports=True)
     authors_file_handler.close()
 
     words_file_handler = open(words_file, "rb")
-    word_data = pickle.load(words_file_handler)
+    word_data = pickle.load(words_file_handler, fix_imports=True)
     words_file_handler.close()
 
     ### test_size is the percentage of events assigned to the test set
