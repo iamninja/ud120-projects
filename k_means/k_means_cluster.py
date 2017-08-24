@@ -53,27 +53,32 @@ feature_1 = "salary"
 feature_2 = "exercised_stock_options"
 feature_3 = "total_payments"
 poi  = "poi"
-features_list = [poi, feature_1, feature_2]#, feature_3]
+features_list = [poi, feature_1, feature_2]
 data = featureFormat(data_dict, features_list )
 poi, finance_features = targetFeatureSplit( data )
-max_features = numpy.nanmax(finance_features, axis=0)
-return_nan_features = copy.deepcopy(finance_features)
-for i, arr in enumerate(return_nan_features):
-    for j, val in enumerate(arr):
-        if val == 0:
-            return_nan_features[i][j] = numpy.nan
-min_features = numpy.nanmin(return_nan_features, axis=0)
-# print("Max stock: ", max_features[1], " Max salary: ", max_features[0], "Max total:", max_features[2])
-# print("Min stock: ", min_features[1], " min salary: ", min_features[0], "Min total:", min_features[2])
-print(max_features)
-print(min_features)
+# max_features = numpy.nanmax(finance_features, axis=0)
+# return_nan_features = copy.deepcopy(finance_features)
+# for i, arr in enumerate(return_nan_features):
+#     for j, val in enumerate(arr):
+#         if val == 0:
+#             return_nan_features[i][j] = numpy.nan
+# min_features = numpy.nanmin(return_nan_features, axis=0)
+
+# print(max_features)
+# print(min_features)
+
+# Scaling
+scaler = preprocessing.MinMaxScaler()
+finance_features_scaled = scaler.fit_transform(finance_features)
+test_data = numpy.array([[200000., 1000000.]])
+print("Data: ", test_data, " scaled to: ", scaler.transform(test_data))
 
 ### in the "clustering with 3 features" part of the mini-project,
 ### you'll want to change this line to
 ### for f1, f2, _ in finance_features:
 ### (as it's currently written, the line below assumes 2 features)
 for f1, f2 in finance_features:
-    plt.scatter( f1, f2)#, f3 )
+    plt.scatter( f1, f2)
 plt.show()
 
 ### cluster here; create predictions of the cluster labels
