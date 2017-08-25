@@ -2,16 +2,21 @@
 
 import pickle
 import numpy
+import pprint
+import sys
+from sklearn import tree
+from sklearn.metrics import accuracy_score
 numpy.random.seed(42)
+numpy.set_printoptions(threshold=sys.maxsize)
 
 
 ### The words (features) and authors (labels), already largely processed.
 ### These files should have been created from the previous (Lesson 10)
 ### mini-project.
-words_file = "../text_learning/your_word_data.pkl" 
+words_file = "../text_learning/your_word_data.pkl"
 authors_file = "../text_learning/your_email_authors.pkl"
-word_data = pickle.load( open(words_file, "r"))
-authors = pickle.load( open(authors_file, "r") )
+word_data = pickle.load( open(words_file, "rb"))
+authors = pickle.load( open(authors_file, "rb") )
 
 
 
@@ -39,5 +44,22 @@ labels_train   = labels_train[:150]
 
 ### your code goes here
 
+classifier = tree.DecisionTreeClassifier()
+classifier = classifier.fit(features_train, labels_train)
 
+acc = accuracy_score(labels_test, classifier.predict(features_test))
+print("Decision tree accuracy: ", acc)
 
+# Non zero indeces
+feature_coefs = classifier.feature_importances_
+nonzero_idx = numpy.nonzero(feature_coefs)
+# print(nonzero_idx[0])
+feature_names = vectorizer.get_feature_names()
+for idx in nonzero_idx[0]:
+    print("Idx: ", idx, "-->", feature_coefs[idx], "-->", feature_names[idx])
+
+# print(feature_names[33614])
+# print(feature_names[14343])
+# output = zip(nonzero_idx[0], feature_coefs[nonzero_idx[0]], feature_names[nonzero_idx[0]])
+# output = numpy.concatenate(nonzero_idx[0], feature_coefs[nonzero_idx[0]], feature_names[nonzero_idx[0]])
+# print(output)
